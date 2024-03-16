@@ -1,6 +1,4 @@
-import 'dart:convert';
 import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -22,6 +20,13 @@ class _TodoListViewState extends State<TodoListView>
   void initState() {
     super.initState();
     _tabController = TabController(vsync: this, length: 2);
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _tabController.dispose();
   }
 
   @override
@@ -221,6 +226,7 @@ class _TodoListViewState extends State<TodoListView>
     );
   }
 
+  // To show dialog  for adding todo
   void _showAddTaskDialog(BuildContext context, TodoViewModel taskViewModel) {
     String newTaskTitle = '';
 
@@ -275,6 +281,7 @@ class _TodoListViewState extends State<TodoListView>
     );
   }
 
+  // To generate todo id
   String generateRandomString(int length) {
     const chars = '0123456789';
     final random = Random();
@@ -282,6 +289,7 @@ class _TodoListViewState extends State<TodoListView>
         length, (_) => chars.codeUnitAt(random.nextInt(chars.length))));
   }
 
+  // To show dialog  for sharing todo with other users via other medium, only text copies
   void _showShareDialog(
       BuildContext context, Todo task, TodoViewModel taskViewModel) {
     TextEditingController emailController = TextEditingController();
@@ -323,6 +331,7 @@ class _TodoListViewState extends State<TodoListView>
     );
   }
 
+  // To show dialog  for sharing todo with other users via mail
   void _shareTodoWithUser(
       Todo task, String userEmail, TodoViewModel taskViewModel) {
     FirebaseFirestore.instance
@@ -403,11 +412,12 @@ class _TodoListViewState extends State<TodoListView>
     );
   }
 
+  // Function to generate random color for tile colors
   Color generateRandomLightColor() {
     Random random = Random();
-    int red = 180 + random.nextInt(55); // Random value between 200 and 255
-    int green = 180 + random.nextInt(55); // Random value between 200 and 255
-    int blue = 180 + random.nextInt(55); // Random value between 200 and 255
+    int red = 180 + random.nextInt(55);
+    int green = 180 + random.nextInt(55);
+    int blue = 180 + random.nextInt(55);
     return Color.fromRGBO(red, green, blue, 1.0);
   }
 //
