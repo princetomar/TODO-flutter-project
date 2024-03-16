@@ -39,7 +39,10 @@ class _TodoListViewState extends State<TodoListView>
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('TODO List'),
+        title: Text(
+          'Your Notes',
+          style: Theme.of(context).textTheme.headlineMedium,
+        ),
         actions: [
           IconButton(
             onPressed: () async {
@@ -52,13 +55,13 @@ class _TodoListViewState extends State<TodoListView>
       ),
       body: Container(
         height: MediaQuery.of(context).size.height * 0.7,
-        color: Colors.grey.shade200,
+        color: Colors.white,
         alignment: Alignment.center,
         child: DefaultTabController(
           length: 2,
           child: Scaffold(
             appBar: AppBar(
-              backgroundColor: Colors.grey.shade200,
+              backgroundColor: Colors.white,
               elevation: 0,
               toolbarHeight: 10,
               automaticallyImplyLeading: false,
@@ -90,12 +93,12 @@ class _TodoListViewState extends State<TodoListView>
               children: [
                 Container(
                   padding: const EdgeInsets.only(top: 20),
-                  color: Colors.grey.shade200,
+                  color: Colors.white,
                   child: _buildOwnedTasks(context, taskViewModel),
                 ),
                 Container(
                   padding: const EdgeInsets.only(top: 20),
-                  color: Colors.grey.shade200,
+                  color: Colors.white,
                   child: _buildSharedTasks(context, taskViewModel),
                 ),
               ],
@@ -124,36 +127,45 @@ class _TodoListViewState extends State<TodoListView>
         }
         return ListView.builder(
           itemCount: snapshot.data!.length,
+          physics: BouncingScrollPhysics(),
           itemBuilder: (context, index) {
             Todo task = snapshot.data![index];
-            return ListTile(
-              leading: Text(
-                "${index + 1}",
-                style: const TextStyle(
-                  fontSize: 18,
-                ),
+            Color tileColor = generateRandomLightColor();
+            return Container(
+              margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+              decoration: BoxDecoration(
+                color: tileColor,
+                borderRadius: BorderRadius.circular(12),
               ),
-              title: Text(task.title),
-              subtitle: Text(
-                  'Owner: ${task.ownerId == widget.userId ? 'true' : 'false'}'),
-              // Implement other UI for tasks
+              child: ListTile(
+                leading: Text(
+                  "${index + 1}",
+                  style: const TextStyle(
+                    fontSize: 18,
+                  ),
+                ),
+                title: Text(task.title),
+                subtitle: Text(
+                    'Owner: ${task.ownerId == widget.userId ? 'true' : 'false'}'),
+                // Implement other UI for tasks
 
-              trailing: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  IconButton(
-                    icon: Icon(Icons.share),
-                    onPressed: () {
-                      taskViewModel.shareTask(task);
-                    },
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.person_add),
-                    onPressed: () {
-                      _showShareDialog(context, task, taskViewModel);
-                    },
-                  ),
-                ],
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      icon: Icon(Icons.share),
+                      onPressed: () {
+                        taskViewModel.shareTask(task);
+                      },
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.person_add),
+                      onPressed: () {
+                        _showShareDialog(context, task, taskViewModel);
+                      },
+                    ),
+                  ],
+                ),
               ),
             );
           },
@@ -176,23 +188,31 @@ class _TodoListViewState extends State<TodoListView>
           itemCount: snapshot.data!.length,
           itemBuilder: (context, index) {
             Todo task = snapshot.data![index];
-            return ListTile(
-              leading: Text(
-                "${index + 1}",
-                style: const TextStyle(
-                  fontSize: 18,
-                ),
+            Color tileColor = generateRandomLightColor();
+            return Container(
+              margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+              decoration: BoxDecoration(
+                color: tileColor,
+                borderRadius: BorderRadius.circular(12),
               ),
-              title: Text(task.title),
-              subtitle: Text(
-                  'Owner: ${task.ownerId == widget.userId ? 'true' : 'false'}'),
-              // Implement other UI for tasks
+              child: ListTile(
+                leading: Text(
+                  "${index + 1}",
+                  style: const TextStyle(
+                    fontSize: 18,
+                  ),
+                ),
+                title: Text(task.title),
+                subtitle: Text(
+                    'Owner: ${task.ownerId == widget.userId ? 'true' : 'false'}'),
+                // Implement other UI for tasks
 
-              trailing: IconButton(
-                icon: Icon(Icons.edit),
-                onPressed: () {
-                  _updateSharedTodoDialog(context, task, taskViewModel);
-                },
+                trailing: IconButton(
+                  icon: Icon(Icons.edit),
+                  onPressed: () {
+                    _updateSharedTodoDialog(context, task, taskViewModel);
+                  },
+                ),
               ),
             );
           },
@@ -383,5 +403,12 @@ class _TodoListViewState extends State<TodoListView>
     );
   }
 
+  Color generateRandomLightColor() {
+    Random random = Random();
+    int red = 180 + random.nextInt(55); // Random value between 200 and 255
+    int green = 180 + random.nextInt(55); // Random value between 200 and 255
+    int blue = 180 + random.nextInt(55); // Random value between 200 and 255
+    return Color.fromRGBO(red, green, blue, 1.0);
+  }
 //
 }

@@ -16,6 +16,8 @@ class TodoService {
           'ownerId': todo.ownerId,
           'completed': todo.completed,
           'sharedWith': todo.sharedWith,
+          'createdtedAt': DateTime.now().toIso8601String(),
+          'updatedAt': DateTime.now().toIso8601String(),
         });
 
         // Add shared Todo to other users' sharedTodo collection
@@ -38,15 +40,24 @@ class TodoService {
 
   Stream<List<Todo>> getOwnedTodos(String userId) {
     final userRef = _db.collection('users').doc(userId);
-    return userRef.collection('ownedTodo').snapshots().map((snapshot) =>
-        snapshot.docs.map((doc) => Todo.fromSnapshot(doc)).toList());
+    return userRef
+        .collection('ownedTodo')
+        .orderBy('createdtedAt',
+            descending: false) // Sort by createdAt in descending order
+        .snapshots()
+        .map((snapshot) =>
+            snapshot.docs.map((doc) => Todo.fromSnapshot(doc)).toList());
   }
 
-  // Function to fetch all the shared Todos
   Stream<List<Todo>> getSharedTodos(String userId) {
     final userRef = _db.collection('users').doc(userId);
-    return userRef.collection('sharedTodos').snapshots().map((snapshot) =>
-        snapshot.docs.map((doc) => Todo.fromSnapshot(doc)).toList());
+    return userRef
+        .collection('sharedTodos')
+        .orderBy('createdtedAt',
+            descending: false) // Sort by createdAt in descending order
+        .snapshots()
+        .map((snapshot) =>
+            snapshot.docs.map((doc) => Todo.fromSnapshot(doc)).toList());
   }
 
   // Function to update the shared todo
