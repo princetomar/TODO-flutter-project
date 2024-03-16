@@ -1,16 +1,20 @@
 # task_app
 
-A new Flutter project.
 
-## Getting Started
+https://github.com/princetomar/TODO-flutter-project/assets/71916212/2b354778-0516-42e0-b96d-51d7dc492eb8
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+##TODO flutter project
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- where task can be shared and received with another user
+- when task is shared with other user, and they are making some changes that should reflect to the owner of the task in real time
+- task can be shared via email and other media
+- List can be infinite
+- use component for ui widget (List view, input field and others)
+ 
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Note:-
+
+Project in mvvm structure
+Used provider for state management
+App is responsive (work on all different screen sizes)
